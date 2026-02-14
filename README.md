@@ -13,7 +13,11 @@
 - Member 2: Fathima Fidha MA - GECK
 
 ### Hosted Project Link
+repository link:
+https://github.com/Aleena2106/slotify
 
+project kink:
+https://aleena2106.github.io/slotify/
 
 ### Project Description
 Slotify is a web-based application designed to help students, faculty, and college administrators book rooms, schedule events, and view upcoming activities in a seamless and organized way. The system ensures efficient utilization of college spaces, prevents double bookings, and keeps track of event timelines automatically.
@@ -152,7 +156,7 @@ Working: Automatically updates when a booking is made in Booking page; past even
 
 #### API Documentation
 
-**Base URL:** `https://api.yourproject.com`
+**Base URL: 
 
 ##### Endpoints
 
