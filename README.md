@@ -381,13 +381,17 @@ python script.py -v --format json data.json
 
 ### Video
 
-https://github.com/user-attachments/assets/8f21311b-d2be-4f69-b93f-ce69977bd0e7
 
 
 
 https://github.com/user-attachments/assets/8f21311b-d2be-4f69-b93f-ce69977bd0e7
 
+Booking and Event Management:
+In Slotify, users can book rooms or labs for events by selecting their department, choosing an available room, and specifying the date, time, and event name. The system automatically checks for time conflicts and displays only the rooms that are available for the selected slot, ensuring smooth scheduling.
 
+Once a booking is confirmed, the event appears on the Upcoming Events page, visible to all users in chronological order. After the event concludes, the system automatically removes it from the events list, keeping the schedule current and preventing outdated information from being displayed.
+
+This ensures transparent, conflict-free, and real-time management of rooms and events across the college
 
 
 
