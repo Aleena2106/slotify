@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Slotify - Booking</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+    }
+
+    /* HEADER */
+    .header {
+      background-color: white;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .header img {
+      width: 90px;
+      margin-right: 20px;
+    }
+
+    .college-text h1 {
+      margin: 0;
+      font-size: 26px;
+      color: #003366;
+    }
+
+    .line {
+      height: 2px;
+      background-color: #003366;
+      margin: 10px 0;
+    }
+
+       .slotify {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    background: linear-gradient(90deg, #003366, #1cc88a, #4e73df);
+    background-clip: text;       /* standard property */
+    -webkit-background-clip: text; /* for Chrome/Safari */
+    color: black;                /* fallback if gradient not supported */
+    -webkit-text-fill-color: transparent;
+}
+@keyframes glowText {
+    from {
+        text-shadow: 0 0 5px #1cc88a,
+                     0 0 10px #4e73df;
+    }
+    to {
+        text-shadow: 0 0 15px #1cc88a,
+                     0 0 25px #4e73df;
+    }
+}
+
+    /* CONTAINER */
+    .container {
+      background: white;
+      color: #003366;
+      padding: 25px;
+      margin: 40px auto;
+      width: 450px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    select, input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    label { font-weight: bold; }
+
+    .rooms {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .room {
+      padding: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #e2e8f0;
+      color: #003366;
+      text-align: center;
+    }
+
+    .green { border: 2px solid #1cc88a; box-shadow: 0 0 8px #1cc88a; }
+    .red { border: 2px solid #ff3b3b; box-shadow: 0 0 8px #ff3b3b; }
+
+    button {
+      margin-top: 12px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #003366;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover { background: #1cc88a; color: black; }
+
+    .back { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <img src="logo.png" alt="College Logo">
+  <div class="college-text">
+    <h1>Government Engineering College – Kozhikode</h1>
+    <div class="line"></div>
+    <div class="slotify">SLOTIFY</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <h2>EVENT BOOKING</h2>
+
+  <select id="department" onchange="showRooms()">
+    <option value="">Select Department</option>
+    <option>CSD</option>
+    <option>EC</option>
+    <option>CHEM</option>
+    <option>CIVIL</option>
+    <option>MECH</option>
+  </select>
+
+  <input type="date" id="date" onchange="showRooms()">
+
+  <label>Time:</label><br>
+  <input type="time" id="startTime" onchange="showRooms()">
+  <span>to</span>
+  <input type="time" id="endTime" onchange="showRooms()">
+
+  <div id="roomList" class="rooms"></div>
+
+  <input type="text" placeholder="Event Name" id="eventName">
+
+  <button onclick="submitBooking()">Book Event</button>
+  <button onclick="clearAllBookings()">Clear All Bookings</button>
+
+  <div class="back">
+    <a href="slotify.html" class="btn">⬅ Back to Home</a>
+  </div>
+</div>
+
+<script>
+const departmentRooms = {
+  CSD: ["Software Lab","MT LAB","112"],
+  EC: ["EC Seminar Hall","EC Lab"],
+  CHEM: ["Chem Lab"],
+  CIVIL: ["ASAP"],
+  MECH: ["Seminar Hall"]
+};
+
+let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
+let selectedRoom = "";
+
+// Check for time conflicts
+function isConflict(existing, date, start, end) {
+  if (existing.date !== date) return false;
+  const newStart = start.replace(":", "");
+  const newEnd = end.replace(":", "");
+  const oldStart = existing.start.replace(":", "");
+  const oldEnd = existing.end.replace(":", "");
+  return newStart < oldEnd && newEnd > oldStart;
+}
+
+// Show available rooms
+function showRooms() {
+  const dept = document.getElementById("department").value;
+  const date = document.getElementById("date").value;
+  const start = document.getElementById("startTime").value;
+  const end = document.getElementById("endTime").value;
+  const container = document.getElementById("roomList");
+
+  container.innerHTML = "";
+  selectedRoom = "";
+
+  if (!dept || !date || !start || !end) return;
+
+  departmentRooms[dept].forEach(roomName => {
+    const key = dept + "_" + roomName;
+    const div = document.createElement("div");
+
+    let available = true;
+
+    if (bookings[key] && isConflict(bookings[key], date, start, end)) {
+      available = false;
+    }
+
+    div.className = "room " + (available ? "green" : "red");
+    div.innerText = roomName;
+
+    div.onclick = () => {
+      if (!available) {
+        const existing = bookings[key];
+        alert(`Room not available at this time.\nAlready booked on ${existing.date} from ${existing.start} to ${existing.end}`);
+        return;
+      }
+      selectedRoom = roomName;
+      alert("Selected: " + roomName);
+    };
+
+    container.appendChild(div);
+  });
+}
+
+// Submit booking
+function submitBooking() {
+  const event = document.getElementById("eventName").value;
+  const date = document.getElementById("date").value;
+  const start = document.getElementById("startTime").value;
+  const end = document.getElementById("endTime").value;
+  const dept = document.getElementById("department").value;
+
+  if (!event || !date || !start || !end) { alert("Fill all fields first"); return; }
+  if (!selectedRoom) { alert("Select an available room"); return; }
+
+  const key = dept + "_" + selectedRoom;
+
+  bookings[key] = { event, date, start, end, department: dept, room: selectedRoom };
+  localStorage.setItem("bookings", JSON.stringify(bookings));
+
+  // ✅ Save also to allEvents
+  let allEvents = JSON.parse(localStorage.getItem("allEvents")) || [];
+  allEvents.push({ event, date, start, end, department: dept, room: selectedRoom });
+  localStorage.setItem("allEvents", JSON.stringify(allEvents));
+
+  alert("Booking Successful!");
+
+  clearAll();
+  document.getElementById("roomList").innerHTML = "";
+}
+
+// Clear form
+function clearAll() {
+  document.getElementById("eventName").value = "";
+  document.getElementById("date").value = "";
+  document.getElementById("startTime").value = "";
+  document.getElementById("endTime").value = "";
+  document.getElementById("department").value = "";
+  selectedRoom = "";
+  document.getElementById("roomList").innerHTML = "";
+}
+
+// Clear all bookings & events
+function clearAllBookings() {
+  if (confirm("Are you sure you want to clear all booked rooms?")) {
+    localStorage.removeItem("bookings");
+    localStorage.removeItem("allEvents");
+    bookings = {};
+    selectedRoom = "";
+    alert("All bookings and events cleared!");
+    showRooms();
+  }
+}
+</script>
+
+</body>
+</html>

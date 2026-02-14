@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slotify - Events</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        /* HEADER */
+        .header {
+            background-color: white;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header img {
+            width: 90px;
+            margin-right: 20px;
+        }
+
+        .college-text h1 {
+            margin: 0;
+            font-size: 26px;
+            color: #003366;
+        }
+
+        .line {
+            height: 2px;
+            background-color: #003366;
+            margin: 10px 0;
+        }
+
+       
+       .slotify {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    background: linear-gradient(90deg, #003366, #1cc88a, #4e73df);
+    background-clip: text;       /* standard property */
+    -webkit-background-clip: text; /* for Chrome/Safari */
+    color: black;                /* fallback if gradient not supported */
+    -webkit-text-fill-color: transparent;
+}
+
+        @keyframes glowText {
+            from { text-shadow: 0 0 5px #1cc88a, 0 0 10px #4e73df; }
+            to { text-shadow: 0 0 15px #1cc88a, 0 0 25px #4e73df; }
+        }
+
+        /* MAIN */
+        .main {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .main h2 {
+            color: #003366;
+            font-size: 32px;
+        }
+
+        .underline {
+            width: 120px;
+            height: 4px;
+            background: #1cc88a;
+            margin: 10px auto 40px auto;
+            border-radius: 5px;
+        }
+
+        .events {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .event-card {
+            background: white;
+            width: 280px;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .event-card h3 {
+            margin-top: 0;
+            color: #003366;
+        }
+
+        .event-info {
+            font-size: 14px;
+            color: gray;
+            margin: 8px 0;
+        }
+
+        .btn {
+            margin-top: 15px;
+            background-color: #003366;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #1cc88a;
+        }
+
+        .back {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <img src="logo.png" alt="College Logo">
+        <div class="college-text">
+            <h1>Government Engineering College – Kozhikode</h1>
+            <div class="line"></div>
+            <div class="slotify">SLOTIFY</div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <h2>Upcoming Events</h2>
+        <div class="underline"></div>
+
+        <div class="events"></div>
+
+        <div class="back">
+            <a href="slotify.html" class="btn">⬅ Back to Home</a>
+        </div>
+    </div>
+
+<script>
+const eventsContainer = document.querySelector('.events');
+
+function loadEvents() {
+    let allEvents = JSON.parse(localStorage.getItem("allEvents")) || [];
+
+    // Remove past events
+    const now = new Date();
+    allEvents = allEvents.filter(ev => {
+        const evEnd = new Date(ev.date + " " + ev.end);
+        return evEnd > now;
+    });
+
+    localStorage.setItem("allEvents", JSON.stringify(allEvents));
+
+    eventsContainer.innerHTML = "";
+    if (allEvents.length === 0) {
+        eventsContainer.innerHTML = "<p>No events booked yet.</p>";
+        return;
+    }
+
+    // Sort chronologically
+    allEvents.sort((a, b) => new Date(a.date + " " + a.start) - new Date(b.date + " " + b.start));
+
+    allEvents.forEach(ev => {
+        const div = document.createElement("div");
+        div.className = "event-card";
+        div.innerHTML = `
+            <h3>${ev.event}</h3>
+            <div class="event-info">📅 ${ev.date}</div>
+            <div class="event-info">⏰ ${ev.start} - ${ev.end}</div>
+            <div class="event-info">🏫 ${ev.department} - ${ev.room}</div>
+            <button class="btn">View Details</button>
+        `;
+        eventsContainer.appendChild(div);
+    });
+}
+
+loadEvents();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slotify</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        /* HEADER */
+        .header {
+            background-color: white;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header img {
+            width: 90px;
+            margin-right: 20px;
+        }
+
+        .college-text h1 {
+            margin: 0;
+            font-size: 26px;
+            color: #003366;
+        }
+
+        .college-text p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            color: gray;
+        }
+
+        .line {
+            height: 2px;
+            background-color: #003366;
+            margin: 10px 0;
+        }
+
+       .slotify {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    background: linear-gradient(90deg, #003366, #1cc88a, #4e73df);
+    background-clip: text;       /* standard property */
+    -webkit-background-clip: text; /* for Chrome/Safari */
+    color: black;                /* fallback if gradient not supported */
+    -webkit-text-fill-color: transparent;
+}
+
+     @keyframes glowText {
+    from {
+        text-shadow: 0 0 5px #1cc88a,
+                     0 0 10px #4e73df;
+    }
+    to {
+        text-shadow: 0 0 15px #1cc88a,
+                     0 0 25px #4e73df;
+    }
+}
+
+        /* MAIN SECTION */
+        .main {
+            padding: 60px 20px;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .main h2 {
+            color: #003366;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .underline {
+            width: 120px;
+            height: 4px;
+            background: #1cc88a;
+            margin: 10px auto 30px auto;
+            border-radius: 5px;
+        }
+
+        /* FEATURES */
+       .features {
+    display: flex;
+    flex-wrap: wrap;       /* allows wrapping on smaller screens */
+    justify-content: center;
+    gap: 20px;             /* space between feature cards */
+    margin-top: 20px;
+}
+
+.feature-box {
+    background: white;
+    color: #003366;
+    width: 250px;          /* default width */
+    max-width: 90%;        /* shrink on small screens */
+    margin: 10px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    word-wrap: break-word;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    .feature-box h3 {
+        font-size: 18px;
+    }
+    .feature-box p {
+        font-size: 14px;
+    }
+}
+
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .feature-box h3 {
+            margin-top: 0;
+        }
+
+        /* BUTTONS */
+        .buttons {
+            margin-top: 50px;
+        }
+
+        .btn {
+            background-color: #003366;
+            color: white;
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #1cc88a;
+            box-shadow: 0 0 10px #1cc88a,
+                        0 0 20px #1cc88a;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-30px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        /* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .header img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .college-text h1 {
+        font-size: 22px;
+    }
+
+    .slotify {
+        font-size: 24px;
+    }
+
+    .main h2 {
+        font-size: 26px;
+    }
+
+    .features {
+        flex-direction: column;
+    }
+
+    .feature-box {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .feature-box h3 {
+        font-size: 18px;
+    }
+
+    .feature-box p {
+        font-size: 14px;
+    }
+
+    .btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main h2 {
+        font-size: 22px;
+    }
+
+    .slotify {
+        font-size: 20px;
+    }
+
+    .feature-box h3 {
+        font-size: 16px;
+    }
+
+    .feature-box p {
+        font-size: 13px;
+    }
+
+    .btn {
+        font-size: 13px;
+        padding: 8px 18px;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <img src="logo.png" alt="College Logo">
+        <div class="college-text">
+            <h1>Government Engineering College – Kozhikode</h1>
+            <p>Accredited Institution | Affiliated University</p>
+            <div class="line"></div>
+            <div class="slotify">SLOTIFY</div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+        <h2>Why Slotify?</h2>
+        <div class="underline"></div>
+
+        <div class="features">
+            <div class="feature-box">
+                <h3>Easy Booking</h3>
+                <p>Book classrooms and event spaces in just a few clicks without clash.</p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Real-Time Availability</h3>
+                <p>Check slot availability instantly and avoid scheduling conflicts.</p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Smart Event Management</h3>
+                <p>Stay updated with upcoming college events in one organized platform.</p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Transparent System</h3>
+                <p>Clear and fair booking process for students and faculty.</p>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a href="events.html" class="btn">Events</a>
+            <a href="booking.html" class="btn">Booking</a>
+        </div>
+    </div>
+
+</body>
+</html>
